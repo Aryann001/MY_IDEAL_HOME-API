@@ -20,10 +20,11 @@ export const filteredBlogs = asyncError(async (req, res, next) => {
   const features = new Features(Blog.find(), req.query).pagination(
     resultPerPage
   );
+  
+  const filteredBlogs = blogs.length;
 
   const blogs = await features.query;
 
-  const filteredBlogs = blogs.length;
 
   res.status(200).json({
     success: true,
