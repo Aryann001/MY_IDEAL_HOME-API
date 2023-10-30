@@ -20,12 +20,13 @@ export const register = asyncError(async (req, res, next) => {
     avatar = { public_id: result.public_id, url: result.secure_url };
   }
 
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   const user = await User.create({
     name,
     email,
     password,
+    role,
     avatar,
   });
 
