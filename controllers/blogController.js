@@ -58,7 +58,7 @@ export const createBlog = asyncError(async (req, res, next) => {
   const { title, previewContent, content } = req.body;
 
   if (req.body.image !== undefined) {
-    const result = await cloudinary.v2.uploader.upload(image, {
+    const result = await cloudinary.v2.uploader.upload(req.body.image, {
       folder: "Blog Images",
     });
 
@@ -69,8 +69,6 @@ export const createBlog = asyncError(async (req, res, next) => {
 
     req.body.image = resultImg;
   }
-
-  req.body.image = { public_id: "Blog_Image", url: "/BlogImage.png" };
 
   const blog = await Blog.create({
     title,
@@ -101,7 +99,7 @@ export const updateBlog = asyncError(async (req, res, next) => {
   }
 
   if (req.body.image !== undefined) {
-    await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+    await cloudinary.v2.uploader.destroy(blog.image.public_id);
 
     const result = await cloudinary.v2.uploader.upload(req.body.image, {
       folder: "Blog Images",
